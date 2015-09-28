@@ -1,0 +1,7 @@
+<h1><%= t '.greeting' %></h1>
+<p><%= t '.instruction' %></p>
+<%= simple_form_for model.contract, url: root_path, as: :test do |f| %>
+  <%= f.input :one, label: t('.one') %>
+  <%= f.input :two, label: t('.two') %>
+  <%= f.submit t('.submit') %>
+<% end %>

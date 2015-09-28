@@ -1,0 +1,34 @@
+es:
+  hello: "Hola, mundo"
+
+  # Trailblazer's "t" helper will find this through iteration!
+  oops: "Algo es equivocada!"
+
+  greeting: "Rails 't' helper won't find this though!"
+
+  # Just to prove inclusion works
+  fields: &fields
+    one: "la primera campo"
+    two: "la segundo campo"
+
+  # The scope used by ActionView in the controller's view
+  application:
+    test:
+      greeting: "Este traducción es terminado cerca ActionView en los controlador" 
+  # The scope used by Trailblazer in the operation and its form.
+  # If contract class is named then this scope will be used, otherwise
+  # the reform one below will be used.
+  # The form's scope isn't explicitly defined below but iteration will
+  # find its translations.
+  test:
+    greeting: "Esta es un la forma en una de celular"
+    instruction: "Entrar dos diferentes valores para que veas error mensajes"
+    submit: "Presentar"
+    <<: *fields
+
+  error: "%{first} no se hace el mismo que %{second}"
+
+  # If contract class is anonymous then this relative scope will be used
+  reform:
+    form:
+      <<: *fields

@@ -1,0 +1,3 @@
+== README
+
+Test application. Please see https://github.com/apotonick/trailblazer/issues/77

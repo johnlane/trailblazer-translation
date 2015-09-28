@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Trailblazer Translations</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <p>
+    <%= link_to 'English', 'en', params.merge(locale: :en) %>
+    <%= link_to 'Español', 'es', params.merge(locale: :es) %>
+  </p>
+  <%= yield %>
+</body>
+</html>
