@@ -46,6 +46,8 @@ Some things I want to do if this is a workable solution
 
 * set options globally
 * consider matching the full functionality of the ActionView helper
+* support a per-conept "locale" directory with YAML files that supplement
+  the main ones.
 
 
 Operation
