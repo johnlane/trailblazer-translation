@@ -1,7 +1,5 @@
-require 'i18n' 
+require 'i18n'
 module Trailblazer::Translation
-  I18n.load_path=Dir['*.yml']
-  I18n.backend.load_translations
 
   # Set the translation scope for relative translation paths
   # based on the class name. If the class is anonymous then
