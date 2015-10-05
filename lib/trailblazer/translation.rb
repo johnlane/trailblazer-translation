@@ -36,6 +36,7 @@ module Trailblazer::Translation
   def translate(key, options={})
     scoped = key[0] == '.'
     key = key.prepend(scope) if scoped
+    absolute_key = key.dup
 
     begin
       I18n.translate(key, options.merge(raise:true))
@@ -49,7 +50,7 @@ module Trailblazer::Translation
       end
 
       raise e if (options[:raise] == true)
-      "<span>translation missing:#{key}</span>".html_safe
+      "<span>translation missing:#{absolute_key}</span>".html_safe
     end
 
   end
