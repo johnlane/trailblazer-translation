@@ -25,6 +25,10 @@ module Trailblazer::Translation
   # The scope is a key prefix that is empty by default. It is
   # prepended to a relative key to produce an absolute key.
   #
+  # If a key is scoped then any 'cell' path components are removed.
+  # This is done to reduce clutter in the translation namespace. It
+  # makes +thing.cell.item.key+ resolve +thing.item.key+ instead.
+  #
   # If a translation is not found for a scoped key then the key's
   # penultimate part is removed and translation is re-attempted. 
   # This is repeated until the key has only one part.
@@ -34,8 +38,10 @@ module Trailblazer::Translation
   # a I18n::MissingTranslationData exception will be rased instead
   # if +raise: true+ is given.
   def translate(key, options={})
-    scoped = key[0] == '.'
-    key = key.prepend(scope) if scoped
+    if scoped = key[0] == '.'
+      key = key.prepend(scope).gsub('.cell.','.')
+    end
+
     absolute_key = key.dup
 
     begin

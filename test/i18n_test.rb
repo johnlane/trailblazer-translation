@@ -7,7 +7,8 @@ class I18nTest < MiniTest::Spec
   EN = { 'top' => 'top',
          'test.form.text1' => 'test form text',
          'test.text2' => 'test text',
-         'test.text3' => 'test text with %{var} inserted'
+         'test.text3' => 'test text with %{var} inserted',
+         'test.nested.text' => 'nested text'
   }
 
   I18n.backend = I18n::Backend::KeyValue.new({})
@@ -15,12 +16,17 @@ class I18nTest < MiniTest::Spec
 
   it { Test::Form.class.must_equal Class } 
 
+  class Test::Cell
+    class Nested < Cell::Concept; end
+  end
+
   describe "operation" do
 
     it "has a scope based on class name" do
       Test::Form.new({}).scope.must_equal 'test.form'
       Test::Form.new({}).contract.scope.must_equal 'test.form.form'
       Reform::Form.new({}).scope.must_equal 'reform.form'
+      Test::Cell.new({}).scope.must_equal 'test.cell'
     end
 
     it "translates a absolute key" do
@@ -54,6 +60,11 @@ class I18nTest < MiniTest::Spec
     it "can raise a 'translation not found' exception" do
       e = lambda {Test::Form.new({}).t('nowhere', raise:true)}.must_raise I18n::MissingTranslationData
       e.message.must_equal 'translation missing: en.nowhere'
+    end
+
+    it "removes 'cell' path component from a relative key" do
+      Test::Cell::Nested.new({}).scope.must_equal 'test.cell.nested'
+      Test::Cell::Nested.new({}).t('.text').must_equal 'nested text'
     end
 
   end

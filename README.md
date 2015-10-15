@@ -15,6 +15,11 @@ It has features lacking in ActionView:
 it will iterate up the hierarchy to find it. (this behaviour can be disabled
 by giving `iterate: false` as an option.
 
+2. If a relative translation path is given then any 'cell' path components
+are removed. This is done to reduce clutter in the translation namespace.
+It allows a translation in Thing::Cell::Item for a `'.key'` to find a
+translation at `thing.item.key` instead of `thing.cell.item.key'.
+
 ISSUES
 ------
 

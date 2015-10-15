@@ -18,3 +18,7 @@ end
 class Reform::Form
   include Trailblazer::Translation
 end
+
+class Cell::Concept
+  include Trailblazer::Translation
+end
