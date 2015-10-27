@@ -1,21 +1,15 @@
 require 'i18n'
 module Trailblazer::Translation
+  extend self # make module methods available as class and instance methods.
 
-  # Set the translation scope for relative translation paths
-  # based on the class name. If the class is anonymous then
-  # iterate through its ancestors until a names class is found.
-  #
-  # The translation scope is derived from the class name so that,
-  # for class +AaBb::CcDd::EeFf+, it is  +aa_bb.cc_dd.ee_ff+.
-  def initialize(*args)
-    c = self.class
-    while c.to_s.match /#<Class:0x[\da-f]+>/ do; c = c.superclass; end
-    @scope = c.to_s.gsub('::','.').underscore
-    super
+  # Current translation scope (path)
+  # If not set, introspect it (set scope from the class name)
+  def scope
+    @scope ||= introspect_scope
   end
 
   # Allow the scope to be customised
-  attr_accessor :scope
+  attr_writer :scope
 
   # Attempts to translate the given key which can be given either
   # as an absolute or relative path. If the first character of the
@@ -67,5 +61,20 @@ module Trailblazer::Translation
     I18n.localize(*args)
   end
   alias :l :localize
+
+  private
+
+  # Set the translation scope for relative translation paths
+  # based on the class name. If the class is anonymous then
+  # iterate through its ancestors until a named class is found.
+  #
+  # The translation scope is derived from the class name so that,
+  # for class +AaBb::CcDd::EeFf+, it is  +aa_bb.cc_dd.ee_ff+.
+  def introspect_scope
+    c = self
+    c = c.class unless c.is_a? Class
+    while c.to_s.match /#<Class:0x[\da-f]+>/ do; c = c.superclass; end
+    c.to_s.gsub('::','.').underscore
+  end
 
 end
